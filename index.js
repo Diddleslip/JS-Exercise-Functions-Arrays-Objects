@@ -205,21 +205,21 @@ function getCarInfoById(inventory, carId) {
  * sortCarInventory returns an inventory that is sorted by car_model, ascending [A-Z].
 */
 function sortCarInventory(inventory) {
-    let newArray = inventory.sort(function(a, b) {
-      var nameA = a.car_model;
-      var nameB = b.car_model; 
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      // names must be equal
-      return 0;
-    })
-    return newArray;
+  inventory.sort(function(a, b) {
+    var nameA = a.car_model; // ignore upper and lowercase
+    var nameB = b.car_model; // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+  
+    // names must be equal
+    return 0;
+  });
+  return inventory;
 }
-
 
 /**
  * ### Challenge `getModelYears`
@@ -271,8 +271,17 @@ function getOlderCars(inventory, maxYear) {
  * made by either `Audi` or `Mercedes-Benz` or `Volkswagen` or `BMW`,
  * in the same order as they appear in the original inventory.
 */
-function getGermanCars(/* code here */) {
-  /* code here */
+function getGermanCars(inventory) {
+  let newArray = [];
+  for(let i = 0; i < inventory.length; i++) {
+    if(inventory[i].car_make == "Audi" || 
+    inventory[i].car_make == "Mercedes-Benz" || 
+    inventory[i].car_make == "Volkswagen" || 
+    inventory[i].car_make == "BMW") {
+      newArray.push(inventory[i]);
+    }
+  }
+  return newArray;
 }
 
 /**
@@ -293,9 +302,9 @@ function getGermanCars(/* code here */) {
  *   return num * 2
  * }
 */
-const sum = null; // code here!
-const addFive = null; // code here!
-const argTimesTwo = null; // code here!
+const sum = (a, b) => a + b; // code here!
+const addFive = (num) => num + 5; // code here!
+const argTimesTwo = (num) => num * 2; // code here!
 
 /**
  * ### Challenge `carMaker`
@@ -310,8 +319,14 @@ const argTimesTwo = null; // code here!
  *         (1) causes the odometer in the object to be increased by the distance,
  *         (2) returns the updated value of the `odometer`.
 */
-function carMaker(/* code here */) {
-  /* code here */
+function carMaker(mileage) {
+  return {
+    odometer: mileage,
+    drive: function(distance) {
+      this.odometer += distance;
+      return this.odometer;
+    }
+  }
 }
 
 /// ////// END OF CHALLENGE /////////
